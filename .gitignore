@@ -29,3 +29,4 @@ yarn-error.log*
 
 src/__test__/
 src/__test__/logs.js
+public/env.js
