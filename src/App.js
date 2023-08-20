@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import { auth } from './config/firebase';
+// import { useAuthState } from 'react-firebase-hooks/auth';
+// import { BrowserRouter as Router } from 'react-router-dom';
+// import { Routes, Route } from 'react-router-dom';
 import ChatRoom from './pages/ChatRoom';
 import SignIn from './pages/SignIn';
 import SignOut from './pages/SignOut';
-import { useAuthState } from 'react-firebase-hooks/auth';
-
+import './App.css';
 
 function App() {
-  const [hiuser, setHiUser] = useState(null)
-  const [user,loading] = useAuthState(auth);
-  useEffect(() => {
-    if (user) {
-      setHiUser(user.emailVerified);
-    }
-  }, [user]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const [user, setuser] = useState(null)
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      // const { displayName, email } = user;
+      setuser(user)
+    })
+  }, [])
+
+
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="App">
@@ -28,9 +31,9 @@ function App() {
       </header>
 
       <section>
-        {hiuser ? <ChatRoom /> : <SignIn />}
-      </section>
-    </div>
+          {user ? <ChatRoom /> : <SignIn />}
+        </section>
+      </div>
   );
 }
 
